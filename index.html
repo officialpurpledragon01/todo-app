@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+</head>
+<body>
+  <h1>TODO APP</h1>
+  <input type="text" placeholder="Add To Do" class="todoName" size="30" required>
+  <input type="date" name="date" class="todoDate" required>
+  <button onclick="addToDo()">
+    Add To Do
+  </button>
+  <div class="displayList">
+    no todo yet
+  </div>
+  <script>
+    const todoListArray = [];
+
+    const userInput = document.querySelector('.todoName');
+    const userDate = document.querySelector('.todoDate');
+    
+    
+    function renderTodolist() {
+      let todoListString = "";
+      
+      todoListArray.forEach((todoObject, i) => {
+        const {name, date} = todoObject;
+
+        const todoHTML = `
+          <div>
+            <span> ${name} </span>
+            <span> ${date} </span>
+            <button onclick="
+              todoListArray.splice(${i}, 1);
+              renderTodolist();
+              " class='delete'>Delete</button>
+          </div>
+        `;
+        todoListString += todoHTML;              
+      });  
+      document.querySelector('.displayList').innerHTML = todoListString; 
+      // console.log(todoListString);
+    }
+    
+    function addToDo() {
+      const name = userInput.value;
+      const date = userDate.value;
+      
+      const newTodo = {name, date};
+
+      if (userInput.value === '' && userDate.value == '') {
+        alert('add your todo');
+        return;
+      }
+      todoListArray.push(newTodo);
+
+      // console.log(date);
+      renderTodolist();
+
+      userInput.value = '';
+      userDate.value = ''
+    }
+  </script>
+</body>
+</html>
